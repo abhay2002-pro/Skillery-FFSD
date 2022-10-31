@@ -34,7 +34,9 @@ function SuccessModal(props) {
               {props.buttonText}
             </Button>
           </Link>
-          <Button variant="ghost" onClick={props.onClose}>Close</Button>
+          <Button variant="ghost" onClick={props.onClose}>
+            Close
+          </Button>
         </ModalFooter>
       </ModalContent>
     </Modal>

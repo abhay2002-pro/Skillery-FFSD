@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image } from '@chakra-ui/image';
 import { useMediaQuery } from '@chakra-ui/media-query';
-import { Stack, HStack, Flex, Box, Text } from '@chakra-ui/layout';
+import { Stack, HStack, Flex, Box, Text, Heading } from '@chakra-ui/layout';
 import './About.css';
 import a1 from '../../assests/images/avataricons/1co-f.svg'
 import a2 from '../../assests/images/avataricons/2co-f.svg'
@@ -9,6 +9,7 @@ import a3 from '../../assests/images/avataricons/3co-f.svg'
 import a4 from '../../assests/images/avataricons/4co-f.svg'
 import a5 from '../../assests/images/avataricons/5co-f.svg'
 import aboutUsImg from '../../assests/images/aboutus.jpg'
+import { Link } from 'react-router-dom';
 
 
 function Aboutus() {
@@ -43,11 +44,13 @@ function Aboutus() {
               <Text fontSize="17px" fontWeight="">
                 Skillery was a dream which was envisioned 4 months back to make
                 programming education easy and accessible for Indian students.
-                We designed a program which is market oriented, fun to learn and
-                focus on setting a strong base for a programming career. Our
-                students are an asset for any team from day one, and trained to
-                be Supercoders.{' '}
+                We provide premium content at a very reasonable subscription cost.{' '}
               </Text>
+              <Link to="/subscribe">
+                <Heading color="yellow.400" fontSize="xl">
+                  Checkout the plan
+                </Heading>
+              </Link>
             </Box>
           </div>
         </Flex>
