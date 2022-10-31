@@ -1,7 +1,6 @@
-# Skillery-working
+# Skillery
 
-Skillery is a dream which is envisioned to make programming education easy and accessible for Indian students. We designed a program which is market oriented, fun to learn and focus on setting a strong base for a programming career. Our students are an asset for any team from day one, and trained to be great coders.
-
+Skillery was a dream which was envisioned 4 months back to make programming education easy and accessible for Indian students. We provide premium content at a very reasonable subscription co
 ---
 ## Group id - 46
 ## Project link
