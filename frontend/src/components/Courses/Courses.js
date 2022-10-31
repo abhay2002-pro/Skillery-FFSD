@@ -86,6 +86,7 @@ function Courses({ courses }) {
   ];
   const addToPlaylistHandler = () => {
     console.log('Added to playlist');
+    console.log(category)
   };
   return (
     <Container minH={'100vh'} maxW="container.lg" paddingY="8">

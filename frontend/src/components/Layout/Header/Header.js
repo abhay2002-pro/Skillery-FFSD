@@ -12,6 +12,7 @@ import {
 import { useDisclosure } from '@chakra-ui/hooks';
 import { HStack, VStack } from '@chakra-ui/layout';
 import { Link } from 'react-router-dom';
+import { Image } from '@chakra-ui/react';
 function Header() {
   const isAuthenticated = false;
   const user = {
@@ -36,7 +37,7 @@ function Header() {
       <Drawer placement="left" onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay backdropFilter={'blur(2px)'} />
         <DrawerContent>
-          <DrawerHeader borderBottomWidth="1px">SKILLERY</DrawerHeader>
+          <DrawerHeader borderBottomWidth="1px" display="flex" alignContent="center"> <Image src="/logoSkillery.svg" boxSize="30" objectFit={'contain'} display="inline" mr={1} />SKILLERY</DrawerHeader>
           <DrawerBody>
             <VStack spacing="5" alignItems="flex-start">
               <Link to="/" onClick={onClose}>
