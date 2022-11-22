@@ -1,6 +1,6 @@
 import express from "express";
 import { config } from "dotenv";
-import ErrorMiddleware from "./middleware/Error.js";
+import ErrorMiddleware from "./middlewares/Error.js";
 
 config({
   path: "./config/config.env",
@@ -8,6 +8,8 @@ config({
 const app = express();
 
 //Using middlewares
+
+//// To read body of the request
 app.use(express.json());
 app.use(
   express.urlencoded({

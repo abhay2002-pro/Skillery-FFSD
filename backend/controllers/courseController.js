@@ -1,8 +1,8 @@
-import { catchAsyncError } from "../middleware/catchAsyncError.js";
+import { catchAsyncError } from "../middlewares/catchAsyncError.js";
 import { Course } from "../models/Course.js";
 import ErrorHandler from "../utils/errorHandler.js";
 export const getAllCourses = catchAsyncError(async (req, res, next) => {
-  const courses = await Course.find().select("-lectures");
+  const courses = await Course.find().select("-lectures"); // We don't want lectures data 
   res.status(200).json({
     success: true,
     courses,
