@@ -47,11 +47,67 @@ export const login = catchAsyncError(async (req, res, next) => {
   sendToken(res, user, `Welcome back, ${user.name}`, 201)
 });
 
-export const logour = catchAsyncError(async (req, res, next) => {
+export const logout = catchAsyncError(async (req, res, next) => {
   res.status(200).cookie("token", null, {
     expires: new Date(Date.now()),
   }).json({
     success: true,
     message: "Logged out successfully"
+  })
+})
+
+export const getMyProfile = catchAsyncError(async (req, res, next) => {
+
+  const user = await User.findById(req.user._id);
+
+  res.status(200).json({
+    success: true,
+    user,
+  })
+})
+
+export const changePassword = catchAsyncError(async (req, res, next) => {
+
+  const {oldPassword, newPassword} = req.body;
+
+  if (!oldPassword || !newPassword) {
+    return next(new ErrorHandler("Please enter all fields", 400));
+  }
+
+  const user = await User.findById(req.user._id).select("+password")
+
+  const isMatch = await user.comparePassword(oldPassword)
+
+  if(!isMatch) return next(new ErrorHandler("Incoorect old password", 400))
+  
+  user.password = newPassword
+
+  await user.save()
+  res.status(200).json({
+    success: true,
+    message: "Password changed successfully"
+  })
+})
+
+export const updateProfile = catchAsyncError(async (req, res, next) => {
+
+  const {name, email} = req.body;
+
+  const user = await User.findById(req.user._id)
+
+  if(name) user.name = name
+  if(email) user.email = email
+
+  await user.save()
+  res.status(200).json({
+    success: true,
+    message: "Profile updated successfully"
+  })
+})
+
+export const updateProfilePicture = catchAsyncError(async (req, res, next) => {
+  res.status(200).json({
+    success: true,
+    message: "Profile picture updated successfully"
   })
 })
