@@ -8,7 +8,9 @@ import {
   updateProfile,
   updateProfilePicture,
   forgetPassword,
-  resetPassword
+  resetPassword,
+  addToPlaylist,
+  removeFromPlaylist
 } from "../controllers/userController.js";
 import { isAuthenticated } from "../middlewares/auth.js";
 
@@ -44,6 +46,9 @@ router.route("/forgetpassword").post(forgetPassword);
 router.route("/resetpassword/:token").put(resetPassword);
 
 //AddtoPlaylist
+router.route("/addtoplaylist").post(isAuthenticated, addToPlaylist);
+
 //RemoveFromPlaylist
+router.route("/removefromplaylist").delete(isAuthenticated, removeFromPlaylist);
 
 export default router;
