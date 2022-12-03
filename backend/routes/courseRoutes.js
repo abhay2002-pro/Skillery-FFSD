@@ -1,6 +1,14 @@
-import express from 'express';
-import { addLecture, createCourse, getAllCourses, getCourseLectures } from '../controllers/courseController.js';
-import singleUpload from '../middlewares/multer.js';
+import express from "express";
+import {
+  addLecture,
+  createCourse,
+  deleteCourse,
+  getAllCourses,
+  getCourseLectures,
+  deleteLecture
+} from "../controllers/courseController.js";
+import { authorizeAdmin, isAuthenticated } from "../middlewares/auth.js";
+import singleUpload from "../middlewares/multer.js";
 
 const router = express.Router();
 
@@ -8,10 +16,22 @@ const router = express.Router();
 router.route("/courses").get(getAllCourses);
 
 // Create new course - only admin
-router.route("/createcourse").post(singleUpload, createCourse);
+router
+  .route("/createcourse")
+  .post(isAuthenticated, authorizeAdmin, singleUpload, createCourse);
 
 // Add lecture, delete course, get course details
-router.route("/course/:id").get(getCourseLectures).post(singleUpload, addLecture);
+router
+  .route("/course/:id")
+  .get(isAuthenticated, getCourseLectures)
+  .post(isAuthenticated, authorizeAdmin, singleUpload, addLecture)
+  .delete(isAuthenticated, authorizeAdmin, deleteCourse);
 
 // Delete lecture
-export default router
+router
+  .route("/lecture")
+  .delete(isAuthenticated, authorizeAdmin, deleteLecture);
+
+
+
+export default router;
