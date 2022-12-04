@@ -10,23 +10,28 @@ import {
   forgetPassword,
   resetPassword,
   addToPlaylist,
-  removeFromPlaylist
+  removeFromPlaylist,
+  getAllUsers,
+  updateUserRole,
+  deleteUser,
+  deleteMyProfile
 } from "../controllers/userController.js";
-import { isAuthenticated } from "../middlewares/auth.js";
+import { authorizeAdmin, isAuthenticated } from "../middlewares/auth.js";
+import singleUpload from "../middlewares/multer.js";
 
 const router = express.Router();
 
 // To register a new user
-router.route("/register").post(register);
+router.route("/register").post(singleUpload, register);
 
 //Login
 router.route("/login").post(login);
 
 //Logout
-router.route("/logout").post(logout);
+router.route("/logout").get(logout);
 
 //Get my Profile
-router.route("/me").get(isAuthenticated, getMyProfile);
+router.route("/me").get(isAuthenticated, getMyProfile).delete(isAuthenticated, deleteMyProfile);;
 
 //ChangePassword
 router.route("/changepassword").put(isAuthenticated, changePassword);
@@ -37,7 +42,7 @@ router.route("/updateprofile").put(isAuthenticated, updateProfile);
 //UpdateProfilePicture
 router
   .route("/updateprofilepicture")
-  .put(isAuthenticated, updateProfilePicture);
+  .put(isAuthenticated, singleUpload, updateProfilePicture);
 
 //ForgetPassword
 router.route("/forgetpassword").post(forgetPassword);
@@ -51,4 +56,9 @@ router.route("/addtoplaylist").post(isAuthenticated, addToPlaylist);
 //RemoveFromPlaylist
 router.route("/removefromplaylist").delete(isAuthenticated, removeFromPlaylist);
 
+
+// Admin Routes
+router.route("/admin/users").get(isAuthenticated, authorizeAdmin, getAllUsers);
+
+router.route("/admin/user/:id").put(isAuthenticated, authorizeAdmin, updateUserRole).delete(isAuthenticated, authorizeAdmin, deleteUser);
 export default router;
