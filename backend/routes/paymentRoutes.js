@@ -14,6 +14,6 @@ router.route("/paymentverification").post(isAuthenticated, paymentVerification)
 router.route("/razorpaykey").get(getRazorPayKey)
 
 // Cancel subscription
-router.route("/subscribe/cancel").delete(isAutenticated, cancelSubscription)
+router.route("/subscribe/cancel").delete(isAuthenticated, cancelSubscription)
 
 export default router;
