@@ -12,10 +12,6 @@ export const updateProfile = (name, email) => async dispatch => {
         email,
       },
       {
-        headers: {
-          'Content-type': 'application/json',
-        },
-
         withCredentials: true,
       }
     );
@@ -65,10 +61,6 @@ export const changePassword = (oldPassword, newPassword) => async dispatch => {
         newPassword,
       },
       {
-        headers: {
-          'Content-type': 'application/json',
-        },
-
         withCredentials: true,
       }
     );
@@ -87,10 +79,6 @@ export const forgetPassword = email => async dispatch => {
     dispatch({ type: 'forgetPasswordRequest' });
 
     const config = {
-      headers: {
-        'Content-type': 'application/json',
-      },
-
       withCredentials: true,
     };
 
@@ -115,10 +103,6 @@ export const resetPassword = (token, password) => async dispatch => {
   try {
     dispatch({ type: 'resetPasswordRequest' });
     const config = {
-      headers: {
-        'Content-type': 'application/json',
-      },
-
       withCredentials: true,
     };
 
@@ -144,10 +128,6 @@ export const addToPlaylist = id => async dispatch => {
     dispatch({ type: 'addToPlaylistRequest' });
 
     const config = {
-      headers: {
-        'Content-type': 'application/json',
-      },
-
       withCredentials: true,
     };
 

@@ -4,9 +4,6 @@ import axios from 'axios';
 export const contactUs = (name, email, message) => async dispatch => {
   try {
     const config = {
-      headers: {
-        'Content-type': 'application/json',
-      },
       withCredentials: true,
     };
 
@@ -30,9 +27,6 @@ export const contactUs = (name, email, message) => async dispatch => {
 export const courseRequest = (name, email, course) => async dispatch => {
   try {
     const config = {
-      headers: {
-        'Content-type': 'application/json',
-      },
       withCredentials: true,
     };
 

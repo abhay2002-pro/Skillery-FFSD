@@ -9,10 +9,6 @@ export const login = (email, password) => async dispatch => {
       `${server}/login`,
       { email, password },
       {
-        headers: {
-          'Content-type': 'application/json',
-        },
-
         withCredentials: true,
       }
     );

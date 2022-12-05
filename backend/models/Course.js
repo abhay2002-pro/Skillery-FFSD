@@ -4,14 +4,15 @@ const schema = new mongoose.Schema({
   title: {
     type: String,
     required: [true, "Please enter course title"],
-    minLength: [4, "Title must be atleast 4 characters"],
+    minLength: [4, "Title must be at least 4 characters"],
     maxLength: [80, "Title can't exceed 80 characters"],
   },
   description: {
     type: String,
-    required: [true, "Please enter course description"],
-    minLength: [4, "Title must be atleast 20 characters"],
+    required: [true, "Please enter course title"],
+    minLength: [20, "Title must be at least 20 characters"],
   },
+
   lectures: [
     {
       title: {
@@ -34,6 +35,7 @@ const schema = new mongoose.Schema({
       },
     },
   ],
+
   poster: {
     public_id: {
       type: String,
@@ -58,11 +60,11 @@ const schema = new mongoose.Schema({
   },
   createdBy: {
     type: String,
-    required: [true, "Enter course creator name"],
+    required: [true, "Enter Course Creator Name"],
   },
   createdAt: {
     type: Date,
-    default: Date.now(),
+    default: Date.now,
   },
 });
 

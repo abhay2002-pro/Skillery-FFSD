@@ -1,20 +1,20 @@
 import express from "express";
 import {
-  register,
+  addToPlaylist,
+  changePassword,
+  deleteMyProfile,
+  deleteUser,
+  forgetPassword,
+  getAllUsers,
+  getMyProfile,
   login,
   logout,
-  getMyProfile,
-  changePassword,
-  updateProfile,
-  updateProfilePicture,
-  forgetPassword,
-  resetPassword,
-  addToPlaylist,
+  register,
   removeFromPlaylist,
-  getAllUsers,
+  resetPassword,
+  updateProfile,
+  updateprofilepicture,
   updateUserRole,
-  deleteUser,
-  deleteMyProfile
 } from "../controllers/userController.js";
 import { authorizeAdmin, isAuthenticated } from "../middlewares/auth.js";
 import singleUpload from "../middlewares/multer.js";
@@ -24,41 +24,46 @@ const router = express.Router();
 // To register a new user
 router.route("/register").post(singleUpload, register);
 
-//Login
+// Login
 router.route("/login").post(login);
 
-//Logout
+// logout
 router.route("/logout").get(logout);
 
-//Get my Profile
-router.route("/me").get(isAuthenticated, getMyProfile).delete(isAuthenticated, deleteMyProfile);;
+// Get my profile
+router.route("/me").get(isAuthenticated, getMyProfile);
 
-//ChangePassword
+// Delete my profile
+router.route("/me").delete(isAuthenticated, deleteMyProfile);
+
+// ChangePassword
 router.route("/changepassword").put(isAuthenticated, changePassword);
 
-//UpdateProfile
+// UpdateProfile
 router.route("/updateprofile").put(isAuthenticated, updateProfile);
 
-//UpdateProfilePicture
+// UpdateProfilePicture
 router
   .route("/updateprofilepicture")
-  .put(isAuthenticated, singleUpload, updateProfilePicture);
+  .put(isAuthenticated, singleUpload, updateprofilepicture);
 
-//ForgetPassword
+// ForgetPassword
 router.route("/forgetpassword").post(forgetPassword);
-
-//ResetPassword
+// ResetPassword
 router.route("/resetpassword/:token").put(resetPassword);
 
-//AddtoPlaylist
+// AddtoPlaylist
 router.route("/addtoplaylist").post(isAuthenticated, addToPlaylist);
 
-//RemoveFromPlaylist
+// RemoveFromPlaylist
 router.route("/removefromplaylist").delete(isAuthenticated, removeFromPlaylist);
-
 
 // Admin Routes
 router.route("/admin/users").get(isAuthenticated, authorizeAdmin, getAllUsers);
 
-router.route("/admin/user/:id").put(isAuthenticated, authorizeAdmin, updateUserRole).delete(isAuthenticated, authorizeAdmin, deleteUser);
+router
+  .route("/admin/user/:id")
+  .put(isAuthenticated, authorizeAdmin, updateUserRole)
+  .delete(isAuthenticated, authorizeAdmin, deleteUser);
+
 export default router;
