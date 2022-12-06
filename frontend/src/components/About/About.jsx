@@ -80,7 +80,7 @@ const About = () => {
   return (
     <Container maxW={'container.lg'} padding="16" boxShadow={'lg'}>
       <Heading children="About Us" textAlign={['center', 'left']} />
-      <Founder />
+      {/* <Founder /> */}
       <Stack m="8" direction={['column', 'row']} alignItems="center">
         <Text fontFamily={'cursive'} m="8" textAlign={['center', 'left']}>
           We are a video streaming platform with some premium courses available

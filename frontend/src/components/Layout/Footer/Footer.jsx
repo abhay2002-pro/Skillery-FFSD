@@ -14,7 +14,7 @@ const Footer = () => {
           <Heading
             fontFamily={'body'}
             size="sm"
-            children="@6 Pack Programmer"
+            children="@Skillery"
             color={'yellow.400'}
           />
         </VStack>
@@ -25,13 +25,13 @@ const Footer = () => {
           color={'white'}
           fontSize="50"
         >
-          <a href="https://youtube.com/6packprogrammer" target={'blank'}>
+          <a href="/" target={'blank'}>
             <TiSocialYoutubeCircular />
           </a>
-          <a href="https://instagram.com/meabhisingh" target={'blank'}>
+          <a href="/" target={'blank'}>
             <TiSocialInstagramCircular />
           </a>
-          <a href="https://github.com/meabhisingh" target={'blank'}>
+          <a href="/" target={'blank'}>
             <DiGithub />
           </a>
         </HStack>

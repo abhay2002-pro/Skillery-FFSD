@@ -27,7 +27,7 @@ export const getAllCourses = catchAsyncError(async (req, res, next) => {
 
 export const createCourse = catchAsyncError(async (req, res, next) => {
   const { title, description, category, createdBy } = req.body;
-
+  console.log(title, description, category);
   if (!title || !description || !category || !createdBy)
     return next(new ErrorHandler("Please add all fields", 400));
 
@@ -73,18 +73,18 @@ export const getCourseLectures = catchAsyncError(async (req, res, next) => {
 export const addLecture = catchAsyncError(async (req, res, next) => {
   const { id } = req.params;
   const { title, description } = req.body;
-
+  console.log(id, title);
   const course = await Course.findById(id);
 
   if (!course) return next(new ErrorHandler("Course not found", 404));
 
   const file = req.file;
+  console.log(file);
   const fileUri = getDataUri(file);
 
   const mycloud = await cloudinary.v2.uploader.upload(fileUri.content, {
     resource_type: "video",
   });
-
   course.lectures.push({
     title,
     description,

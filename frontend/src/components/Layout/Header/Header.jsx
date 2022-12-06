@@ -53,7 +53,8 @@ const Header = ({ isAuthenticated = false, user }) => {
       <Drawer placement="left" onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
         <DrawerContent>
-          <DrawerHeader borderBottomWidth={'1px'}>COURSE BUNDLER</DrawerHeader>
+          <DrawerHeader borderBottomWidth={'1px'}>SKILLERY
+</DrawerHeader>
 
           <DrawerBody>
             <VStack spacing={'4'} alignItems="flex-start">

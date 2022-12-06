@@ -33,10 +33,6 @@ export const updateProfilePicture = formdata => async dispatch => {
       `${server}/updateprofilepicture`,
       formdata,
       {
-        headers: {
-          'Content-type': 'multipart/form-data',
-        },
-
         withCredentials: true,
       }
     );

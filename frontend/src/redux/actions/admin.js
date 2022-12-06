@@ -4,9 +4,6 @@ import axios from 'axios';
 export const createCourse = formData => async dispatch => {
   try {
     const config = {
-      headers: {
-        'Content-type': 'multipart/form-data',
-      },
       withCredentials: true,
     };
     dispatch({ type: 'createCourseRequest' });
@@ -47,9 +44,6 @@ export const deleteCourse = id => async dispatch => {
 export const addLecture = (id, formdata) => async dispatch => {
   try {
     const config = {
-      headers: {
-        'Content-type': 'multipart/form-data',
-      },
       withCredentials: true,
     };
     dispatch({ type: 'addLectureRequest' });
