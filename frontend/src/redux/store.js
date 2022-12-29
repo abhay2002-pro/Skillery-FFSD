@@ -20,4 +20,4 @@ const store = configureStore({
 
 export default store;
 
-export const server = 'https://skillery.onrender.com/api/v1';
+export const server = 'https://skillery-backend.onrender.com/api/v1';
