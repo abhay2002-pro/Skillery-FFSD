@@ -15,7 +15,7 @@ app.use(express.urlencoded({limit: '50mb'}));
 app.use(cookieParser());
 app.use(
   cors({
-    origin: 'https://skillery-frontend.onrender.com/',
+    origin: process.env.FRONTEND_URL,
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
