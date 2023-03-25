@@ -3,6 +3,8 @@ import { config } from "dotenv";
 import ErrorMiddleware from "./middlewares/Error.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import morgan from "morgan"
+import fs from "fs";
 
 config({
   path: "./config/config.env",
@@ -20,6 +22,10 @@ app.use(
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
+
+// Morgan
+const logs=fs.createWriteStream('./access.logs',{flags: 'a'})
+app.use(morgan('combined', { stream: logs }));
 
 // Importing & Using Routes
 import course from "./routes/courseRoutes.js";
