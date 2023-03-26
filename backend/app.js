@@ -23,6 +23,11 @@ app.use(
   })
 );
 
+// Morgan
+const logs=fs.createWriteStream('./access.logs',{flags: 'a'})
+app.use(morgan('combined', { stream: logs }));
+
+
 // Importing & Using Routes
 import course from "./routes/courseRoutes.js";
 import user from "./routes/userRoutes.js";
