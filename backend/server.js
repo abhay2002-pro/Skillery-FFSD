@@ -4,6 +4,8 @@ import cloudinary from "cloudinary";
 import RazorPay from "razorpay";
 import nodeCron from "node-cron";
 import { Stats } from "./models/Stats.js";
+import swaggerJsdoc from "swagger-jsdoc";
+import swaggerUi from "swagger-ui-express";
 connectDB();
 
 cloudinary.v2.config({
@@ -24,6 +26,31 @@ nodeCron.schedule("0 0 0 5 * *", async () => {
     console.log(error);
   }
 });
+
+const options = {
+  definition: {
+    openapi: "3.0.1",
+    info: {
+      title: "Skillery",
+      version: "1.0.0",
+      description:
+        "This is a simple API application made with Express and documented with Swagger",
+    },
+    servers: [
+      {
+        url: "http://localhost:4000",
+      },
+    ],
+  },
+  apis: ["./routes/*.js"],
+};
+
+const specs = swaggerJsdoc(options);
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(specs)
+);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is working on port: ${process.env.PORT}`);

@@ -3,7 +3,7 @@ import { config } from "dotenv";
 import ErrorMiddleware from "./middlewares/Error.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-
+import morgan from "morgan";
 config({
   path: "./config/config.env",
 });
@@ -20,7 +20,7 @@ app.use(
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
-
+app.use(morgan('combined'));
 // Importing & Using Routes
 import course from "./routes/courseRoutes.js";
 import user from "./routes/userRoutes.js";
