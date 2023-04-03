@@ -5,6 +5,8 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import morgan from "morgan"
 import fs from "fs";
+import path from "path";
+import { fileURLToPath } from 'url';
 
 config({
   path: "./config/config.env",
@@ -24,7 +26,9 @@ app.use(
 );
 
 // Morgan
-const logs=fs.createWriteStream('./access.logs',{flags: 'a'})
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const logs=fs.createWriteStream(path.join(__dirname,'./access.logs'),{flags: 'a'})
 app.use(morgan('combined', { stream: logs }));
 
 
