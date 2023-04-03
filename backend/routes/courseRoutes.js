@@ -19,84 +19,79 @@ const router = express.Router();
 /**
  * @swagger
  * components:
- *   schemas:
- *     Course:
- *       type: object
- *       required:
- *         - id
- *         - title
- *         - description
- *       properties:
- *         id:
- *           type: integer
- *           description: The course ID
- *         title:
- *           type: string
- *           description: The course title
- *         description:
- *           type: string
- *           description: The course description
- *       example:
- *         id: 1
- *         title: JavaScript Basics
- *         description: A beginner's guide to JavaScript
- *     Lecture:
- *       type: object
- *       required:
- *         - id
- *         - title
- *         - description
- *         - videoUrl
- *       properties:
- *         id:
- *           type: integer
- *           description: The lecture ID
- *         title:
- *           type: string
- *           description: The lecture title
- *         description:
- *           type: string
- *           description: The lecture description
- *         videoUrl:
- *           type: string
- *           format: url
- *           description: The URL of the lecture video
- *       example:
- *         id: 1
- *         title: Introduction to JavaScript
- *         description: An overview of JavaScript
- *         videoUrl: https://example.com/videos/intro-to-js.mp4
- *     CourseWithLectures:
- *       type: object
- *       required:
- *         - id
- *         - title
- *         - description
- *         - lectures
- *       properties:
- *         id:
- *           type: integer
- *           description: The course ID
- *         title:
- *           type: string
- *           description: The course title
- *         description:
- *           type: string
- *           description: The course description
- *         lectures:
- *           type: array
- *           items:
- *             $ref: '#/components/schemas/Lecture'
- *           description: The list of lectures for the course
- *       example:
- *         id: 1
- *         title: JavaScript Basics
- *         description: A beginner's guide to JavaScript
- *         lectures:
- *           - id: 1
- *             title: Introduction to JavaScript
- *             description: An overview of JavaScript
- *             videoUrl: https://example.com/videos/intro-to-js.mp4
+ *  schemas:
+ *    Course:
+ *      type: object
+ *      properties:
+ *        title:
+ *          type: string
+ *          minLength: 4
+ *          maxLength: 80
+ *          description: Course title
+ *        description:
+ *          type: string
+ *          minLength: 20
+ *          description: Course description
+ *        lectures:
+ *          type: array
+ *          items:
+ *            type: object
+ *            properties:
+ *              title:
+ *                type: string
+ *                description: Lecture title
+ *              description:
+ *                type: string
+ *                description: Lecture description
+ *              video:
+ *                type: object
+ *                properties:
+ *                  public_id:
+ *                    type: string
+ *                    description: Public ID of video
+ *                  url:
+ *                    type: string
+ *                    description: URL of video
+ *                required:
+ *                  - public_id
+ *                  - url
+ *            required:
+ *              - title
+ *              - description
+ *              - video
+ *        poster:
+ *          type: object
+ *          properties:
+ *            public_id:
+ *              type: string
+ *              description: Public ID of course poster
+ *            url:
+ *              type: string
+ *              description: URL of course poster
+ *          required:
+ *            - public_id
+ *            - url
+ *        views:
+ *          type: integer
+ *          default: 0
+ *          description: Number of course views
+ *        numOfVideos:
+ *          type: integer
+ *          default: 0
+ *          description: Number of videos in course
+ *        category:
+ *          type: string
+ *          description: Course category
+ *        createdBy:
+ *          type: string
+ *          description: Name of course creator
+ *          example: John Doe
+ *      required:
+ *        - title
+ *        - description
+ *        - poster
+ *        - category
+ *        - createdBy
  */
 
 
