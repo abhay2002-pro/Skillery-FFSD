@@ -10,6 +10,30 @@ import { authorizeAdmin, isAuthenticated } from "../middlewares/auth.js";
 const router = express.Router();
 /**
  * @swagger
+ * components:
+ *  schemas:
+ *    Stats:
+ *      type: object
+ *      properties:
+ *        users:
+ *          type: number
+ *          default: 0
+ *        subscription:
+ *          type: number
+ *          default: 0
+ *        views:
+ *          type: number
+ *          default: 0
+ *        createdAt:
+ *          type: string
+ *          format: date-time
+ *          default: '2023-04-03T00:00:00.000Z'
+ *      required:
+ *        - users
+ *        - subscription
+ *        - views
+ *        - createdAt
+ * 
  * tags:
  *   name: Other
  *   description: Endpoints for handling miscellaneous requests

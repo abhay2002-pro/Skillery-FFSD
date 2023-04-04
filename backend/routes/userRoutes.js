@@ -25,34 +25,70 @@ const router = express.Router();
  * components:
  *   schemas:
  *     User:
- *       type: object
- *       properties:
- *         _id:
- *           type: string
- *         name:
- *           type: string
- *         email:
- *           type: string
- *         password:
- *           type: string
- *         role:
- *           type: string
- *           enum: [subscriber, admin]
- *         profilePicture:
- *           type: string
- *         createdAt:
- *           type: string
- *           format: date-time
- *         updatedAt:
- *           type: string
- *           format: date-time
+ *        type: object
+ *        required: [name, email, password, role]
+ *        properties:
+ *          name:
+ *            type: string
+ *            description: User's name
+ *          email:
+ *            type: string
+ *            description: User's email address
+ *            format: email
+ *          password:
+ *            type: string
+ *            description: User's password
+ *            minLength: 6
+ *            format: password
+ *          role:
+ *            type: string
+ *            description: User's role
+ *            enum: [user, admin]
+ *            default: user
+ *          subscription:
+ *            type: object
+ *            description: User's subscription status
+ *            properties:
+ *              id:
+ *                type: string
+ *                description: Subscription ID
+ *              status:
+ *                type: string
+ *                description: Subscription status
+ *          avatar:
+ *            type: object
+ *            description: User's avatar image
+ *            properties:
+ *              public_id:
+ *                type: string
+ *                description: Avatar public ID
+ *              url:
+ *                type: string
+ *                description: Avatar image URL
+ *          playlist:
+ *            type: array
+ *            description: User's playlist of courses
+ *            items:
+ *              type: object
+ *              properties:
+ *                course:
+ *                  type: string
+ *                  description: Course ID
+ *                poster:
+ *                  type: string
+ *                  description: Course poster image URL
+ *          createdAt:
+ *            type: string
+ *            format: date-time
+ *            description: User creation timestamp
+ *
  *   securitySchemes:
  *     BearerAuth:
  *       type: http
  *       scheme: bearer
  *       bearerFormat: JWT
  *
- * /api/users/register:
+ * /register:
  *   post:
  *     summary: Register a new user
  *     requestBody:
@@ -79,7 +115,7 @@ const router = express.Router();
  *             schema:
  *               $ref: '#/components/schemas/User'
  *
- * /api/users/login:
+ * /login:
  *   post:
  *     summary: Login to user account
  *     requestBody:
@@ -104,14 +140,14 @@ const router = express.Router();
  *                 token:
  *                   type: string
  *
- * /api/users/logout:
+ * /logout:
  *   get:
  *     summary: Logout from user account
  *     responses:
  *       200:
  *         description: User logged out successfully
  *
- * /api/users/me:
+ * /me:
  *   get:
  *     summary: Get current user's profile
  *     security:
@@ -132,7 +168,7 @@ const router = express.Router();
  *       200:
  *         description: User profile deleted successfully
  *
- * /api/users/changepassword:
+ * /changepassword:
  *   put:
  *     summary: Change current user's password
  *     security:
@@ -282,7 +318,7 @@ router
 // ForgetPassword
 /**
  * @swagger
- * /users/forgetpassword:
+ * /forgetpassword:
  *   post:
  *     summary: Sends a reset password link to user's email
  *     tags: [Users]
@@ -406,27 +442,6 @@ router.route("/addtoplaylist").post(isAuthenticated, addToPlaylist);
  */
 router.route("/removefromplaylist").delete(isAuthenticated, removeFromPlaylist);
 
-// Admin Routes
-
-/**
- * @swagger
- * components:
- *  parameters:
- *    UserId:
- *      in: path
- *      name: id
- *      description: ID of the user
- *      required: true
- *      schema:
- *        type: string
- */
-
-/**
- * @swagger
- * tags:
- *   name: AdminUser
- *   description: Admin only routes for managing users
- */
 
 /**
  * @swagger
