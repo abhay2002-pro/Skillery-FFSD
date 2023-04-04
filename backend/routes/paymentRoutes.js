@@ -29,7 +29,7 @@ const router = express.Router();
  *          type: string
  *          format: date-time
  *          default: '2023-04-03T00:00:00.000Z'
- *        required:
+ *      required:
  *          - razorpay_signature
  *          - razorpay_payment_id
  *          - razorpay_subscription_id

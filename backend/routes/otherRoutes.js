@@ -103,7 +103,7 @@ const router = express.Router();
  *   get:
  *     summary: Get admin dashboard statistics
  *     description: Retrieves statistics for the admin dashboard. Only authenticated admin users can access this endpoint.
- *     tags: [Other]
+ *     tags: [Admin]
  *     security:
  *       - bearerAuth: []
  *     responses:

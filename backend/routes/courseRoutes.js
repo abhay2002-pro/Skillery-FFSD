@@ -86,6 +86,10 @@ const router = express.Router();
  *          type: string
  *          description: Name of course creator
  *          example: John Doe
+ *        createdAt:
+ *          type: string
+ *          format: date-time
+ *          default: '2023-04-03T00:00:00.000Z'
  *      required:
  *        - title
  *        - description
@@ -139,14 +143,22 @@ router.route("/courses").get(getAllCourses);
  *               description:
  *                 type: string
  *                 description: The description of the course
- *               thumbnail:
+ *               category:
+ *                 type: string
+ *                 description: The category of the course
+ *               createdBy:
+ *                 type: string
+ *                 description: Course creator of the course    
+ *               file:
  *                 type: string
  *                 format: binary
  *                 description: The thumbnail image of the course
  *             required:
  *               - title
  *               - description
- *               - thumbnail
+ *               - category
+ *               - createdBy
+ *               - file
  *     responses:
  *       201:
  *         description: The newly created course

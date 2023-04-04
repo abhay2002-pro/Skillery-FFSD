@@ -20,6 +20,7 @@ import { authorizeAdmin, isAuthenticated } from "../middlewares/auth.js";
 import singleUpload from "../middlewares/multer.js";
 
 const router = express.Router();
+
 /**
  * @swagger
  * components:
@@ -81,6 +82,10 @@ const router = express.Router();
  *            type: string
  *            format: date-time
  *            description: User creation timestamp
+ *          resetPasswordToken:
+ *            type: string
+ *          resetPasswordExpire:
+ *            type: string
  *
  *   securitySchemes:
  *     BearerAuth:
@@ -88,9 +93,18 @@ const router = express.Router();
  *       scheme: bearer
  *       bearerFormat: JWT
  *
+ */
+
+// To register a new user
+router.route("/register").post(singleUpload, register);
+/**
+ * @swagger
+ *
  * /register:
  *   post:
  *     summary: Register a new user
+ *     tags:
+ *        - User
  *     requestBody:
  *       required: true
  *       content:
@@ -104,9 +118,15 @@ const router = express.Router();
  *                 type: string
  *               password:
  *                 type: string
- *               profilePicture:
+ *               file:
  *                 type: string
  *                 format: binary
+ *                 description: profile picture
+ *             required:
+ *               - name
+ *               - email
+ *               - password
+ *               - file
  *     responses:
  *       200:
  *         description: User registered successfully
@@ -115,9 +135,18 @@ const router = express.Router();
  *             schema:
  *               $ref: '#/components/schemas/User'
  *
+ */
+
+// Login
+router.route("/login").post(login);
+/**
+ * @swagger
+ *
  * /login:
  *   post:
  *     summary: Login to user account
+ *     tags:
+ *        - User
  *     requestBody:
  *       required: true
  *       content:
@@ -138,18 +167,35 @@ const router = express.Router();
  *               type: object
  *               properties:
  *                 token:
- *                   type: string
+ *
+ *                 type: string
+ */
+
+// logout
+router.route("/logout").get(logout);
+/**
+ * @swagger
  *
  * /logout:
  *   get:
  *     summary: Logout from user account
+ *     tags:
+ *        - User
  *     responses:
  *       200:
  *         description: User logged out successfully
+ */
+
+// Get my profile
+router.route("/me").get(isAuthenticated, getMyProfile);
+/**
+ * @swagger
  *
  * /me:
  *   get:
  *     summary: Get current user's profile
+ *     tags:
+ *        - User
  *     security:
  *       - BearerAuth: []
  *     responses:
@@ -159,18 +205,34 @@ const router = express.Router();
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/User'
- *
+ */
+
+// Delete my profile
+router.route("/me").delete(isAuthenticated, deleteMyProfile);
+/**
+ * @swagger
+ * /me:
  *   delete:
  *     summary: Delete current user's profile
+ *     tags:
+ *        - User
  *     security:
  *       - BearerAuth: []
  *     responses:
  *       200:
  *         description: User profile deleted successfully
+ */
+
+// ChangePassword
+router.route("/changepassword").put(isAuthenticated, changePassword);
+/**
+ * @swagger
  *
  * /changepassword:
  *   put:
  *     summary: Change current user's password
+ *     tags:
+ *        - User
  *     security:
  *       - BearerAuth: []
  *     requestBody:
@@ -188,25 +250,9 @@ const router = express.Router();
  *       200:
  *         description: Password changed successfully
  */
-// To register a new user
-router.route("/register").post(singleUpload, register);
-
-// Login
-router.route("/login").post(login);
-
-// logout
-router.route("/logout").get(logout);
-
-// Get my profile
-router.route("/me").get(isAuthenticated, getMyProfile);
-
-// Delete my profile
-router.route("/me").delete(isAuthenticated, deleteMyProfile);
-
-// ChangePassword
-router.route("/changepassword").put(isAuthenticated, changePassword);
 
 // UpdateProfile
+router.route("/updateprofile").put(isAuthenticated, updateProfile);
 /**
  * @swagger
  *
@@ -214,7 +260,7 @@ router.route("/changepassword").put(isAuthenticated, changePassword);
  *   put:
  *     summary: Update the profile of the authenticated user.
  *     tags:
- *       - User
+ *        - User
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -267,9 +313,10 @@ router.route("/changepassword").put(isAuthenticated, changePassword);
  *         $ref: '#/components/responses/InternalServerError'
  */
 
-router.route("/updateprofile").put(isAuthenticated, updateProfile);
-
 // UpdateProfilePicture
+router
+  .route("/updateprofilepicture")
+  .put(isAuthenticated, singleUpload, updateprofilepicture);
 /**
  * @swagger
  *
@@ -278,7 +325,7 @@ router.route("/updateprofile").put(isAuthenticated, updateProfile);
  *     summary: Update the user's profile picture.
  *     description: Allows authenticated users to update their profile picture.
  *     tags:
- *       - Users
+ *        - User
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -311,17 +358,15 @@ router.route("/updateprofile").put(isAuthenticated, updateProfile);
  *       '500':
  *         $ref: '#/components/responses/InternalServerError'
  */
-router
-  .route("/updateprofilepicture")
-  .put(isAuthenticated, singleUpload, updateprofilepicture);
 
 // ForgetPassword
+router.route("/forgetpassword").post(forgetPassword);
 /**
  * @swagger
  * /forgetpassword:
  *   post:
  *     summary: Sends a reset password link to user's email
- *     tags: [Users]
+ *     tags: [User]
  *     requestBody:
  *       required: true
  *       content:
@@ -343,13 +388,16 @@ router
  *       500:
  *         description: Internal server error.
  */
-router.route("/forgetpassword").post(forgetPassword);
+
 // ResetPassword
+router.route("/resetpassword/:token").put(resetPassword);
 /**
  * @swagger
  * user/resetpassword/{token}:
  * put:
  *   summary: Reset user's password
+ *   tags:
+ *        - User
  *   description: Reset the password of the user who has the provided token.
  *   parameters:
  *     - in: path
@@ -378,9 +426,9 @@ router.route("/forgetpassword").post(forgetPassword);
  *       description: Internal server error.
  *   security: []
  */
-router.route("/resetpassword/:token").put(resetPassword);
 
 // AddtoPlaylist
+router.route("/addtoplaylist").post(isAuthenticated, addToPlaylist);
 /**
  * @swagger
  * /addtoplaylist:
@@ -409,9 +457,9 @@ router.route("/resetpassword/:token").put(resetPassword);
  *       "404":
  *         description: Course not found
  */
-router.route("/addtoplaylist").post(isAuthenticated, addToPlaylist);
 
 // RemoveFromPlaylist
+router.route("/removefromplaylist").delete(isAuthenticated, removeFromPlaylist);
 /**
  * @swagger
  * /removefromplaylist:
@@ -440,15 +488,14 @@ router.route("/addtoplaylist").post(isAuthenticated, addToPlaylist);
  *       "404":
  *         description: Course not found
  */
-router.route("/removefromplaylist").delete(isAuthenticated, removeFromPlaylist);
 
-
+router.route("/admin/users").get(isAuthenticated, authorizeAdmin, getAllUsers);
 /**
  * @swagger
- * /api/v1/admin/users:
+ * /admin/users:
  *   get:
  *     summary: Get all users
- *     tags: [AdminUser]
+ *     tags: [Admin]
  *     security:
  *       - bearerAuth: []
  *     responses:
@@ -490,11 +537,50 @@ router.route("/removefromplaylist").delete(isAuthenticated, removeFromPlaylist);
  *         $ref: '#/components/responses/InternalServerError'
  */
 
-router.route("/admin/users").get(isAuthenticated, authorizeAdmin, getAllUsers);
-
 router
   .route("/admin/user/:id")
   .put(isAuthenticated, authorizeAdmin, updateUserRole)
   .delete(isAuthenticated, authorizeAdmin, deleteUser);
-
+/**
+ * @swagger
+ * /admin/user/{id}:
+ *   get:
+ *     summary: Update role of a user
+ *     tags: [Admin]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The ID of the user 
+ *     responses:
+ *       "200":
+ *         description: Updated role successfully
+ *       "404":
+ *         description: User not found
+ *       "500":
+ *         description: Internal Server Error
+ *   delete:
+ *     summary: Delete a user
+ *     tags: [Admin]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The ID of the user 
+ *     responses:
+ *       "200":
+ *         description: User deleted successfully
+ *       "404":
+ *         description: User not found
+ *       "500":
+ *         description: Internal Server Error
+*/
 export default router;
