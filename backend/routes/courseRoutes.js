@@ -6,9 +6,12 @@ import {
   deleteLecture,
   getAllCourses,
   getCourseLectures,
+  getInstructorCourses,
+  deleteInstructorLecture,
 } from "../controllers/courseController.js";
 import {
   authorizeAdmin,
+  authorizeInstructor,
   isAuthenticated,
   authorizeSubscribers,
 } from "../middlewares/auth.js";
@@ -309,5 +312,21 @@ router
  *         description: An internal server error occurred while attempting to delete the lecture
  */
 router.route("/lecture").delete(isAuthenticated, authorizeAdmin, deleteLecture);
+
+router
+.route("/instructorcourse/:name")
+.get(isAuthenticated, authorizeInstructor, getInstructorCourses)
+
+router
+.route("/instructorcreatecourse")
+.post(isAuthenticated,authorizeInstructor,singleUpload,createCourse);
+
+router
+.route("/instructordeletecourse/:id")
+.get(isAuthenticated, authorizeSubscribers, getCourseLectures)
+.post(isAuthenticated, authorizeInstructor, singleUpload, addLecture)
+.delete(isAuthenticated, authorizeInstructor, deleteCourse);
+
+router.route("/instructordeletelecture/:name").delete(isAuthenticated, authorizeInstructor, deleteInstructorLecture);
 
 export default router;

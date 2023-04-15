@@ -35,3 +35,13 @@ export const authorizeAdmin = (req, res, next) => {
 
   next();
 };
+export const authorizeInstructor=(req,res,next)=>{
+  if(req.user.role!=="instructor")
+  return next(
+    new ErrorHandler(
+      `${req.user.role} is not allowed to access this resource`,
+      403
+    )
+  );
+  next();
+};
