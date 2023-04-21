@@ -11,7 +11,7 @@ import React, { useEffect } from 'react';
 import { RiArrowDownLine, RiArrowUpLine } from 'react-icons/ri';
 import cursor from '../../../assets/images/cursor.png';
 import Sidebar from '../Sidebar';
-import { DoughnutChart, LineChart } from './Chart';
+import { DoughnutChart, LineChart } from '../../Layout/Chart/Chart';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDashboardStats } from '../../../redux/actions/admin';
 import Loader from '../../Layout/Loader/Loader';

@@ -21,7 +21,7 @@ import { RiDeleteBin7Fill } from 'react-icons/ri';
 import { useDispatch, useSelector } from 'react-redux';
 import cursor from '../../../assets/images/cursor.png';
 import Sidebar from '../Sidebar';
-import CourseModal from './CourseModal';
+import CourseModal from '../../Layout/CourseModal/CourseModal';
 import {
   getAllCourses,
   getCourseLectures,
@@ -52,7 +52,6 @@ const AdminCourses = () => {
     setCourseTitle(title);
   };
   const deleteButtonHandler = courseId => {
-    console.log(courseId);
     dispatch(deleteCourse(courseId));
   };
 

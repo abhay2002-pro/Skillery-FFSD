@@ -53,8 +53,7 @@ const Header = ({ isAuthenticated = false, user }) => {
       <Drawer placement="left" onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
         <DrawerContent>
-          <DrawerHeader borderBottomWidth={'1px'}>SKILLERY
-</DrawerHeader>
+          <DrawerHeader borderBottomWidth={'1px'}>SKILLERY</DrawerHeader>
 
           <DrawerBody>
             <VStack spacing={'4'} alignItems="flex-start">
@@ -93,14 +92,23 @@ const Header = ({ isAuthenticated = false, user }) => {
                         </Button>
                       </HStack>
 
-                      {user && user.role === 'admin' && (
-                        <Link onClick={onClose} to="/admin/dashboard">
-                          <Button colorScheme={'purple'} variant="ghost">
-                            <RiDashboardFill style={{ margin: '4px' }} />
-                            Dashboard
-                          </Button>
-                        </Link>
-                      )}
+                      {user &&
+                        (user.role === 'admin' ||
+                          user.role === 'instructor') && (
+                          <Link
+                            onClick={onClose}
+                            to={
+                              user.role == 'admin'
+                                ? '/admin/dashboard'
+                                : '/instructor/dashboard'
+                            }
+                          >
+                            <Button colorScheme={'purple'} variant="ghost">
+                              <RiDashboardFill style={{ margin: '4px' }} />
+                              Dashboard
+                            </Button>
+                          </Link>
+                        )}
                     </VStack>
                   </>
                 ) : (

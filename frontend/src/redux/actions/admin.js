@@ -145,7 +145,7 @@ export const getDashboardStats = () => async dispatch => {
     };
     dispatch({ type: 'getAdminStatsRequest' });
 
-    const { data } = await axios.get(`${server}/admin/stats`, config);
+    const { data } = await axios.get(`${server}/stats`, config);
 
     dispatch({ type: 'getAdminStatsSuccess', payload: data });
   } catch (error) {

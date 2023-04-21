@@ -6,10 +6,12 @@ import {
 } from './reducers/userReducer';
 import { courseReducer } from './reducers/courseReducer';
 import { adminReducer } from './reducers/adminReducer';
+import { instructorReducer } from './reducers/instructorReducer';
 import { otherReducer } from './reducers/otherReducer';
 const store = configureStore({
   reducer: {
     user: userReducer,
+    instructor: instructorReducer,
     profile: profileReducer,
     course: courseReducer,
     subscription: subscriptionReducer,
@@ -20,4 +22,4 @@ const store = configureStore({
 
 export default store;
 
-export const server = 'https://skillery-backend.onrender.com/api/v1';
+export const server = 'http://localhost:4000/api/v1';

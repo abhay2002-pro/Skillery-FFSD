@@ -3,6 +3,7 @@ import ErrorHandler from "../utils/errorHandler.js";
 import { User } from "../models/User.js";
 import { sendToken } from "../utils/sendToken.js";
 import { sendEmail } from "../utils/sendEmail.js";
+import bcrypt from "bcrypt";
 import crypto from "crypto";
 import { Course } from "../models/Course.js";
 import cloudinary from "cloudinary";
@@ -20,9 +21,10 @@ export const register = catchAsyncError(async (req, res, next) => {
 
   if (user) return next(new ErrorHandler("User Already Exist", 409));
 
+  
   const fileUri = getDataUri(file);
   const mycloud = await cloudinary.v2.uploader.upload(fileUri.content);
-
+  
   user = await User.create({
     name,
     email,
@@ -32,6 +34,11 @@ export const register = catchAsyncError(async (req, res, next) => {
       url: mycloud.secure_url,
     },
   });
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+  
+  user.password = hashedPassword
+  await user.save();
 
   sendToken(res, user, "Registered Successfully", 201);
 });

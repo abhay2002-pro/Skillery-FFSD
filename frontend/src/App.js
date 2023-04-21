@@ -23,6 +23,9 @@ import Dashboard from './components/Admin/Dashboard/Dashboard';
 import CreateCourse from './components/Admin/CreateCourse/CreateCourse';
 import AdminCourses from './components/Admin/AdminCourses/AdminCourses';
 import Users from './components/Admin/Users/Users';
+import IDashboard from './components/Instructor/Dashboard/Dashboard';
+import ICreateCourse from './components/Instructor/CreateCourse/CreateCourse';
+import ICourses from './components/Instructor/InstructorCourses/InstructorCourses';
 import { useDispatch, useSelector } from 'react-redux';
 import toast, { Toaster } from 'react-hot-toast';
 import { loadUser } from './redux/actions/user';
@@ -211,6 +214,44 @@ function App() {
                   isAdmin={user && user.role === 'admin'}
                 >
                   <Users />
+                </ProtectedRoute>
+              }
+            />
+
+            {/* Instructor Routes */}
+            <Route
+              path="/instructor/dashboard"
+              element={
+                <ProtectedRoute
+                  adminRoute={true}
+                  isAuthenticated={isAuthenticated}
+                  isAdmin={user && user.role === 'instructor'}
+                >
+                  <IDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/instructor/createcourse"
+              element={
+                <ProtectedRoute
+                  adminRoute={true}
+                  isAuthenticated={isAuthenticated}
+                  isAdmin={user && user.role === 'instructor'}
+                >
+                  <ICreateCourse />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/instructor/courses"
+              element={
+                <ProtectedRoute
+                  adminRoute={true}
+                  isAuthenticated={isAuthenticated}
+                  isAdmin={user && user.role === 'instructor'}
+                >
+                  <ICourses />
                 </ProtectedRoute>
               }
             />
