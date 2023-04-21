@@ -3,7 +3,39 @@ import { createReducer } from '@reduxjs/toolkit';
 export const instructorReducer = createReducer(
   {},
   {
-    
+    getInstructorStatsRequest: state => {
+      state.loading = true;
+    },
+    getInstructorStatsSuccess: (state, action) => {
+      state.loading = false;
+      state.stats = action.payload.stats;
+      state.viewsCount = action.payload.viewsCount;
+      state.subscriptionCount = action.payload.subscriptionCount;
+      state.usersCount = action.payload.usersCount;
+      state.subscriptionPercentage = action.payload.subscriptionPercentage;
+      state.viewsPercentage = action.payload.viewsPercentage;
+      state.usersPercentage = action.payload.usersPercentage;
+      state.subscriptionProfit = action.payload.subscriptionProfit;
+      state.viewsProfit = action.payload.viewsProfit;
+      state.usersProfit = action.payload.usersProfit;
+    },
+    getInstructorStatsFail: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+
+    getInstructorCourseRequest: state => {
+      state.loading = true;
+    },
+    getInstructorCourseSuccess: (state, action) => {
+      state.loading = false;
+      state.courses = action.payload;
+    },
+    getInstructorCourseFail: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+
     createCourseRequest: state => {
       state.loading = true;
     },
@@ -12,41 +44,6 @@ export const instructorReducer = createReducer(
       state.message = action.payload;
     },
     createCourseFail: (state, action) => {
-      state.loading = false;
-      state.error = action.payload;
-    },
-    deleteCourseRequest: state => {
-      state.loading = true;
-    },
-    deleteCourseSuccess: (state, action) => {
-      state.loading = false;
-      state.message = action.payload;
-    },
-    deleteCourseFail: (state, action) => {
-      state.loading = false;
-      state.error = action.payload;
-    },
-
-    addLectureRequest: state => {
-      state.loading = true;
-    },
-    addLectureSuccess: (state, action) => {
-      state.loading = false;
-      state.message = action.payload;
-    },
-    addLectureFail: (state, action) => {
-      state.loading = false;
-      state.error = action.payload;
-    },
-
-    deleteLectureRequest: state => {
-      state.loading = true;
-    },
-    deleteLectureSuccess: (state, action) => {
-      state.loading = false;
-      state.message = action.payload;
-    },
-    deleteLectureFail: (state, action) => {
       state.loading = false;
       state.error = action.payload;
     },
