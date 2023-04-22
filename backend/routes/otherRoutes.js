@@ -3,6 +3,7 @@ import {
   contact,
   courseRequest,
   getDashboardStats,
+  getSubscribed,
 } from "../controllers/otherController.js";
 
 import { authorizeAdmin, authorizeAdminOrInstructor, isAuthenticated } from "../middlewares/auth.js";
@@ -126,5 +127,10 @@ router.route("/courserequest").post(courseRequest);
 router
   .route("/stats")
   .get(isAuthenticated, authorizeAdminOrInstructor, getDashboardStats);
+
+// Get Subscribed User
+router
+.route("/subscribed")
+.get(isAuthenticated, getSubscribed);
 
 export default router;

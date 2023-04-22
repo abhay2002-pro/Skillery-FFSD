@@ -2,6 +2,8 @@ import { catchAsyncError } from "../middlewares/catchAsyncError.js";
 import ErrorHandler from "../utils/errorHandler.js";
 import { sendEmail } from "../utils/sendEmail.js";
 import { Stats } from "../models/Stats.js";
+import { Course } from "../models/Course.js";
+import { User } from "../models/User.js";
 
 export const contact = catchAsyncError(async (req, res, next) => {
   const { name, email, message } = req.body;
@@ -99,5 +101,47 @@ export const getDashboardStats = catchAsyncError(async (req, res, next) => {
     subscriptionProfit,
     viewsProfit,
     usersProfit,
+  });
+});
+
+export const getSubscribed = catchAsyncError(async (req, res, next) => {
+  let curr_month_count = 0;
+  let last_month_count = 0;
+  const users = await User.find({});
+  for (const user of users) {
+    const courses = user.playlist;
+    if (courses) {
+      const promises = courses.map(async (item) => {
+        const course = await Course.findOne({ _id: item.course });
+        if (course && course.createdBy == req.user.name) {
+          const lastMonth = new Date();
+          lastMonth.setMonth(lastMonth.getMonth() - 1);
+          lastMonth.setDate(5);
+
+          const secondlastMonth = new Date();
+          secondlastMonth.setMonth(secondlastMonth.getMonth() - 1);
+          secondlastMonth.setDate(5);
+          if(item.date > lastMonth){
+            curr_month_count++;
+          } else if(item.date > secondlastMonth){
+            last_month_count++;
+          }
+        }
+      });
+      await Promise.all(promises);
+    }
+  }
+  const count = curr_month_count - last_month_count;
+  let percentage = 0;
+  if(last_month_count == 0) {
+    percentage = count*100;
+  }
+  else {
+    percentage = count/last_month_count * 100;
+  }
+  res.status(200).json({
+    success: true,
+    count,
+    percentage
   });
 });
