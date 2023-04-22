@@ -4,6 +4,7 @@ import { sendEmail } from "../utils/sendEmail.js";
 import { Stats } from "../models/Stats.js";
 import { Course } from "../models/Course.js";
 import { User } from "../models/User.js";
+import redis_client from "../config/redis.js";
 
 export const contact = catchAsyncError(async (req, res, next) => {
   const { name, email, message } = req.body;
@@ -89,6 +90,17 @@ export const getDashboardStats = catchAsyncError(async (req, res, next) => {
     if (subscriptionPercentage < 0) subscriptionProfit = false;
   }
 
+  await redis_client.setex("stats", 24*60*60, JSON.stringify(statsData));
+  await redis_client.setex("usersCount", 24 * 60 * 60, usersCount);
+  await redis_client.setex("subscriptionCount", 24 * 60 * 60, subscriptionCount);
+  await redis_client.setex("viewsCount", 24 * 60 * 60, viewsCount);
+  await redis_client.setex("subscriptionPercentage", 24 * 60 * 60, subscriptionPercentage);
+  await redis_client.setex("viewsPercentage", 24 * 60 * 60, viewsPercentage);
+  await redis_client.setex("usersPercentage", 24 * 60 * 60, usersPercentage);
+  await redis_client.setex("subscriptionProfit", 24 * 60 * 60, subscriptionProfit);
+  await redis_client.setex("viewsProfit", 24 * 60 * 60, viewsProfit);
+  await redis_client.setex("usersProfit", 24 * 60 * 60, usersProfit);
+
   res.status(200).json({
     success: true,
     stats: statsData,
@@ -121,9 +133,9 @@ export const getSubscribed = catchAsyncError(async (req, res, next) => {
           const secondlastMonth = new Date();
           secondlastMonth.setMonth(secondlastMonth.getMonth() - 1);
           secondlastMonth.setDate(5);
-          if(item.date > lastMonth){
+          if (item.date > lastMonth) {
             curr_month_count++;
-          } else if(item.date > secondlastMonth){
+          } else if (item.date > secondlastMonth) {
             last_month_count++;
           }
         }
@@ -133,15 +145,16 @@ export const getSubscribed = catchAsyncError(async (req, res, next) => {
   }
   const count = curr_month_count - last_month_count;
   let percentage = 0;
-  if(last_month_count == 0) {
-    percentage = count*100;
+  if (last_month_count == 0) {
+    percentage = count * 100;
+  } else {
+    percentage = (count / last_month_count) * 100;
   }
-  else {
-    percentage = count/last_month_count * 100;
-  }
+  await redis_client.setex("subscribedCount", 24 * 60 * 60, count);
+  await redis_client.setex("subscribedpercentage", 24 * 60 * 60, percentage);
   res.status(200).json({
     success: true,
     count,
-    percentage
+    percentage,
   });
 });
