@@ -16,7 +16,7 @@ export const isAuthenticated = catchAsyncError(async (req, res, next) => {
 });
 
 export const authorizeSubscribers = (req, res, next) => {
-  if (req.user.subscription.status !== "active" && req.user.role !== "admin")
+  if (req.user.subscription.status !== "active" && req.user.role !== "admin" &&  req.user.role !== "instructor")
     return next(
       new ErrorHandler(`Only Subscribers can acces this resource`, 403)
     );
@@ -37,6 +37,16 @@ export const authorizeAdmin = (req, res, next) => {
 };
 export const authorizeInstructor=(req,res,next)=>{
   if(req.user.role!=="instructor")
+  return next(
+    new ErrorHandler(
+      `${req.user.role} is not allowed to access this resource`,
+      403
+    )
+  );
+  next();
+};
+export const authorizeAdminOrInstructor=(req,res,next)=>{
+  if(req.user.role !== "admin" && req.user.role !== "instructor")
   return next(
     new ErrorHandler(
       `${req.user.role} is not allowed to access this resource`,

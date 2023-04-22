@@ -5,7 +5,7 @@ import {
   getDashboardStats,
 } from "../controllers/otherController.js";
 
-import { authorizeAdmin, isAuthenticated } from "../middlewares/auth.js";
+import { authorizeAdmin, authorizeAdminOrInstructor, isAuthenticated } from "../middlewares/auth.js";
 
 const router = express.Router();
 /**
@@ -33,11 +33,11 @@ const router = express.Router();
  *        - subscription
  *        - views
  *        - createdAt
- * 
+ *
  * tags:
  *   name: Other
  *   description: Endpoints for handling miscellaneous requests
- * 
+ *
  * /contact:
  *   post:
  *     summary: Send a message through the contact form
@@ -66,7 +66,7 @@ const router = express.Router();
  *         description: The request was malformed or missing required parameters
  *       500:
  *         description: An internal server error occurred while attempting to send the message
- * 
+ *
  * /courserequest:
  *   post:
  *     summary: Submit a course request
@@ -98,7 +98,7 @@ const router = express.Router();
  *         description: The request was malformed or missing required parameters
  *       500:
  *         description: An internal server error occurred while attempting to submit the course request
- * 
+ *
  * /admin/stats:
  *   get:
  *     summary: Get admin dashboard statistics
@@ -122,9 +122,9 @@ router.route("/contact").post(contact);
 // Request form
 router.route("/courserequest").post(courseRequest);
 
-// Get Admin Dashboard Stats
+// Get Dashboard Stats
 router
-  .route("/admin/stats")
-  .get(isAuthenticated, authorizeAdmin, getDashboardStats);
+  .route("/stats")
+  .get(isAuthenticated, authorizeAdminOrInstructor, getDashboardStats);
 
 export default router;

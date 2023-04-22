@@ -7,13 +7,13 @@ import {
   getAllCourses,
   getCourseLectures,
   getInstructorCourses,
-  deleteInstructorLecture,
 } from "../controllers/courseController.js";
 import {
   authorizeAdmin,
   authorizeInstructor,
   isAuthenticated,
   authorizeSubscribers,
+  authorizeAdminOrInstructor,
 } from "../middlewares/auth.js";
 import singleUpload from "../middlewares/multer.js";
 
@@ -172,7 +172,7 @@ router.route("/courses").get(getAllCourses);
  */
 router
   .route("/createcourse")
-  .post(isAuthenticated, authorizeAdmin, singleUpload, createCourse);
+  .post(isAuthenticated, authorizeAdminOrInstructor, singleUpload, createCourse);
 
 // Add lecture, Delete Course, Get Course Details
 /**
@@ -279,8 +279,8 @@ router
 router
   .route("/course/:id")
   .get(isAuthenticated, authorizeSubscribers, getCourseLectures)
-  .post(isAuthenticated, authorizeAdmin, singleUpload, addLecture)
-  .delete(isAuthenticated, authorizeAdmin, deleteCourse);
+  .post(isAuthenticated, authorizeAdminOrInstructor, singleUpload, addLecture)
+  .delete(isAuthenticated, authorizeAdminOrInstructor, deleteCourse);
 
 // Delete Lecture
 /**
@@ -311,22 +311,14 @@ router
  *       500:
  *         description: An internal server error occurred while attempting to delete the lecture
  */
-router.route("/lecture").delete(isAuthenticated, authorizeAdmin, deleteLecture);
+router.route("/lecture").delete(isAuthenticated, authorizeAdminOrInstructor, deleteLecture);
 
 router
-.route("/instructorcourse/:name")
+.route("/instructorcourses")
 .get(isAuthenticated, authorizeInstructor, getInstructorCourses)
 
 router
 .route("/instructorcreatecourse")
 .post(isAuthenticated,authorizeInstructor,singleUpload,createCourse);
-
-router
-.route("/instructordeletecourse/:id")
-.get(isAuthenticated, authorizeSubscribers, getCourseLectures)
-.post(isAuthenticated, authorizeInstructor, singleUpload, addLecture)
-.delete(isAuthenticated, authorizeInstructor, deleteCourse);
-
-router.route("/instructordeletelecture/:name").delete(isAuthenticated, authorizeInstructor, deleteInstructorLecture);
 
 export default router;
