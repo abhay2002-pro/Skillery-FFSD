@@ -50,6 +50,10 @@ const schema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Course",
       },
+      date: {
+        type: Date,
+        default: Date.now,
+      },
       poster: String,
     },
   ],
