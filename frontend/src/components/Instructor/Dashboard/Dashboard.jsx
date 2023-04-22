@@ -3,7 +3,6 @@ import {
     Grid,
     Heading,
     HStack,
-    Progress,
     Stack,
     Text,
   } from '@chakra-ui/react';
@@ -11,7 +10,7 @@ import {
   import { RiArrowDownLine, RiArrowUpLine } from 'react-icons/ri';
   import cursor from '../../../assets/images/cursor.png';
   import Sidebar from '../Sidebar';
-  import { DoughnutChart, LineChart } from '../../Layout/Chart/Chart';
+  import { LineChart } from '../../Layout/Chart/Chart';
   import { useDispatch, useSelector } from 'react-redux';
   import { getDashboardStats, getSubscribedCount } from '../../../redux/actions/instructor';
   import Loader from '../../Layout/Loader/Loader';
@@ -40,20 +39,6 @@ import {
       <Text opacity={0.6} children={'Since Last Month'} />
     </Box>
   );
-  
-  const Bar = ({ title, value, profit }) => (
-    <Box py="4" px={['0', '20']}>
-      <Heading size="sm" children={title} mb="2" />
-  
-      <HStack w="full" alignItems={'center'}>
-        <Text children={profit ? '0%' : `-${value}%`} />
-  
-        <Progress w="full" value={profit ? value : 0} colorScheme="purple" />
-        <Text children={`${value > 100 ? value : 100}%`} />
-      </HStack>
-    </Box>
-  );
-  
   const Dashboard = () => {
     const dispatch = useDispatch();
   
@@ -61,7 +46,6 @@ import {
       loading,
       stats,
       viewsCount,
-      subscriptionPercentage,
       viewsPercentage,
       subscriptionProfit,
       viewsProfit,

@@ -98,7 +98,7 @@ const Header = ({ isAuthenticated = false, user }) => {
                           <Link
                             onClick={onClose}
                             to={
-                              user.role == 'admin'
+                              user.role === 'admin'
                                 ? '/admin/dashboard'
                                 : '/instructor/dashboard'
                             }

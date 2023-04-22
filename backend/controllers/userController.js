@@ -258,7 +258,7 @@ export const updateUserRole = catchAsyncError(async (req, res, next) => {
 
   if (!user) return next(new ErrorHandler("User not found", 404));
 
-  if (user.role === "user") user.role = "admin";
+  if (user.role === "user") user.role = "instructor";
   else user.role = "user";
 
   await user.save();

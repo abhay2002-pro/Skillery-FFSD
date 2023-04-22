@@ -32,7 +32,7 @@ export const instructorReducer = createReducer(
       state.subscriberCounts = action.payload.count;
       state.subscriberPercentage = action.payload.percentage;
     },
-    getInstructorCourseFail: (state, action) => {
+    getSubscribedCountFail: (state, action) => {
       state.loading = false;
       state.error = action.payload;
     },

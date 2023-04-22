@@ -21,7 +21,6 @@ import toast from 'react-hot-toast';
 const CreateCourse = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [createdBy, setCreatedBy] = useState('');
   const [category, setCategory] = useState('');
   const [image, setImage] = useState('');
   const [imagePrev, setImagePrev] = useState('');
