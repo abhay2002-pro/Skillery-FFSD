@@ -58,3 +58,21 @@ export const getDashboardStats = () => async dispatch => {
     });
   }
 };
+
+export const getSubscribedCount = () => async dispatch => {
+  try {
+    const config = {
+      withCredentials: true,
+    };
+    dispatch({ type: 'getSubscribedCountRequest' });
+
+    const { data } = await axios.get(`${server}/subscribed`, config);
+
+    dispatch({ type: 'getSubscribedCountSuccess', payload: data });
+  } catch (error) {
+    dispatch({
+      type: 'getSubscribedCountFail',
+      payload: error.response.data.message,
+    });
+  }
+};

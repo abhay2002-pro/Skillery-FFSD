@@ -24,6 +24,19 @@ export const instructorReducer = createReducer(
       state.error = action.payload;
     },
 
+    getSubscribedCountRequest: (state, action) => {
+      state.loading = true;
+    },
+    getSubscribedCountSuccess: (state, action) => {
+      state.loading = false;
+      state.subscriberCounts = action.payload.count;
+      state.subscriberPercentage = action.payload.percentage;
+    },
+    getInstructorCourseFail: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+
     getInstructorCourseRequest: state => {
       state.loading = true;
     },

@@ -13,7 +13,7 @@ import {
   import Sidebar from '../Sidebar';
   import { DoughnutChart, LineChart } from '../../Layout/Chart/Chart';
   import { useDispatch, useSelector } from 'react-redux';
-  import { getDashboardStats } from '../../../redux/actions/instructor';
+  import { getDashboardStats, getSubscribedCount } from '../../../redux/actions/instructor';
   import Loader from '../../Layout/Loader/Loader';
   
   const Databox = ({ title, qty, qtyPercentage, profit }) => (
@@ -61,18 +61,17 @@ import {
       loading,
       stats,
       viewsCount,
-      subscriptionCount,
-      usersCount,
       subscriptionPercentage,
       viewsPercentage,
-      usersPercentage,
       subscriptionProfit,
       viewsProfit,
-      usersProfit,
+      subscriberCounts,
+      subscriberPercentage
     } = useSelector(state => state.instructor);
   
     useEffect(() => {
       dispatch(getDashboardStats());
+      dispatch(getSubscribedCount());
     }, [dispatch]);
   
     return (
@@ -114,15 +113,9 @@ import {
                 profit={viewsProfit}
               />
               <Databox
-                title="Users"
-                qty={usersCount}
-                qtyPercentage={usersPercentage}
-                profit={usersProfit}
-              />
-              <Databox
-                title="Subscription"
-                qty={subscriptionCount}
-                qtyPercentage={subscriptionPercentage}
+                title="Subscribed"
+                qty={subscriberCounts}
+                qtyPercentage={subscriberPercentage}
                 profit={subscriptionProfit}
               />
             </Stack>
@@ -144,44 +137,6 @@ import {
   
               <LineChart views={stats.map(item => item.views)} />
             </Box>
-  
-            <Grid templateColumns={['1fr', '2fr 1fr']}>
-              <Box p="4">
-                <Heading
-                  textAlign={['center', 'left']}
-                  size="md"
-                  children="Progress Bar"
-                  my="8"
-                  ml={['0', '16']}
-                />
-  
-                <Box>
-                  <Bar
-                    profit={viewsProfit}
-                    title="Views"
-                    value={viewsPercentage}
-                  />
-                  <Bar
-                    profit={usersProfit}
-                    title="Users"
-                    value={usersPercentage}
-                  />
-                  <Bar
-                    profit={subscriptionProfit}
-                    title="Subscription"
-                    value={subscriptionPercentage}
-                  />
-                </Box>
-              </Box>
-  
-              <Box p={['0', '16']} boxSizing="border-box" py="4">
-                <Heading textAlign={'center'} size="md" mb="4" children="Users" />
-  
-                <DoughnutChart
-                  users={[subscriptionCount, usersCount - subscriptionCount]}
-                />
-              </Box>
-            </Grid>
           </Box>
         )}
   
