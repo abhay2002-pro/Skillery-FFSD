@@ -44,7 +44,7 @@ const router = express.Router();
  *          role:
  *            type: string
  *            description: User's role
- *            enum: [user, admin]
+ *            enum: [user, admin, instructor]
  *            default: user
  *          subscription:
  *            type: object

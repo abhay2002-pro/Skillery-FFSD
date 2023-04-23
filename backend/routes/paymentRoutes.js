@@ -109,6 +109,34 @@ router.route("/paymentverification").post(isAuthenticated, paymentVerification);
 router.route("/razorpaykey").get(getRazorPayKey);
 
 // Cancel Subscription
+/**
+ * @swagger
+ * /subscribe/cancel:
+ *   delete:
+ *     summary: Cancel an active subscription.
+ *     tags: [Subscription]
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Returns a success message indicating the subscription was cancelled.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: A success message indicating the subscription was cancelled.
+ *             example:
+ *               message: "Subscription cancelled successfully."
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedError'
+ *       404:
+ *         $ref: '#/components/responses/NotFoundError'
+ * 
+ * 
+ */
 router.route("/subscribe/cancel").delete(isAuthenticated, cancelSubscription);
 
 export default router;

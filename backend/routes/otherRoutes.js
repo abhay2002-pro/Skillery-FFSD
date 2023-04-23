@@ -117,6 +117,145 @@ const router = express.Router();
  *       500:
  *         description: An internal server error occurred while attempting to retrieve the dashboard statistics
  */
+/**
+ * @swagger
+ * tags:
+ *   name: Contact
+ *   description: API endpoints for sending a contact message
+ * 
+ * /contact:
+ *   post:
+ *     summary: Send a contact message.
+ *     tags: [Contact]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *               - email
+ *               - message
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: The name of the sender.
+ *               email:
+ *                 type: string
+ *                 description: The email address of the sender.
+ *               message:
+ *                 type: string
+ *                 description: The message content.
+ *             example:
+ *               name: "John Doe"
+ *               email: "john.doe@example.com"
+ *               message: "Hello, I have a question about your service."
+ *     responses:
+ *       200:
+ *         description: Returns a success message indicating the message was sent.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: A success message indicating the message was sent.
+ *             example:
+ *               message: "Message sent successfully."
+ * 
+ * /courserequest:
+ *   post:
+ *     summary: Send a course request.
+ *     tags: [CourseRequest]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *               - email
+ *               - course_name
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: The name of the person making the course request.
+ *               email:
+ *                 type: string
+ *                 description: The email address of the person making the course request.
+ *               course_name:
+ *                 type: string
+ *                 description: The name of the course being requested.
+ *             example:
+ *               name: "John Doe"
+ *               email: "john.doe@example.com"
+ *               course_name: "Introduction to JavaScript"
+ *     responses:
+ *       200:
+ *         description: Returns a success message indicating the course request was sent.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: A success message indicating the course request was sent.
+ *             example:
+ *               message: "Course request sent successfully."
+ *
+ *
+ * /stats:
+ *   get:
+ *     summary: Get dashboard statistics.
+ *     tags: [Stats]
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Returns the dashboard statistics.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 total_users:
+ *                   type: integer
+ *                   description: The total number of registered users.
+ *                 total_courses:
+ *                   type: integer
+ *                   description: The total number of courses.
+ *                 total_enrollments:
+ *                   type: integer
+ *                   description: The total number of course enrollments.
+ *             example:
+ *               total_users: 1000
+ *               total_courses: 50
+ *               total_enrollments: 500
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedError'
+ * 
+ * /subscribed:
+ *   get:
+ *     summary: Get the list of subscribed users.
+ *     tags: [Subscribed]
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Returns the list of subscribed users.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/User'
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedError'
+ */
 // contact form
 router.route("/contact").post(contact);
 
