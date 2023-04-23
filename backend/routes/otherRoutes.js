@@ -7,6 +7,7 @@ import {
 } from "../controllers/otherController.js";
 
 import { authorizeAdmin, authorizeAdminOrInstructor, isAuthenticated } from "../middlewares/auth.js";
+import { isSubscribedCountPresent } from "../middlewares/cache.js";
 
 const router = express.Router();
 /**
@@ -270,6 +271,6 @@ router
 // Get Subscribed User
 router
 .route("/subscribed")
-.get(isAuthenticated, getSubscribed);
+.get(isAuthenticated, isSubscribedCountPresent, getSubscribed);
 
 export default router;
