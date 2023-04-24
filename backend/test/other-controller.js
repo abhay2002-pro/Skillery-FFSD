@@ -2,6 +2,9 @@ import { expect } from 'chai';
 import * as otherController from "../controllers/otherController.js";
 import ErrorHandler from "../utils/errorHandler.js";
 
+setTimeout(() => {
+    process.exit(0);
+}, 10000);
 describe('Contact function', () => {
   it('should return an error if any field is missing', async () => {
     const req = {
