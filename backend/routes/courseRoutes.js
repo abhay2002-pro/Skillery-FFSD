@@ -320,5 +320,95 @@ router
 router
 .route("/instructorcreatecourse")
 .post(isAuthenticated,authorizeInstructor,singleUpload,createCourse);
+/**
+ * @swagger
+ * /lecture:
+ *   delete:
+ *     summary: Delete a lecture by ID.
+ *     tags: [Lecture]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: lectureId
+ *         required: true
+ *         description: ID of the lecture to delete.
+ *         schema:
+ *           type: string
+ *     responses:
+ *       204:
+ *         description: Lecture deleted successfully.
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedError'
+ *       404:
+ *         description: Lecture not found.
+ */
+
+/**
+ * @swagger
+ * /instructorcourses:
+ *   get:
+ *     summary: Get the list of courses created by the authenticated instructor.
+ *     tags: [Instructor]
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Returns the list of courses created by the authenticated instructor.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Course'
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedError'
+ */
+
+/**
+ * @swagger
+ * /instructorcreatecourse:
+ *   post:
+ *     summary: Create a new course.
+ *     tags: [Instructor]
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 description: Title of the course.
+ *               description:
+ *                 type: string
+ *                 description: Description of the course.
+ *               price:
+ *                 type: number
+ *                 description: Price of the course.
+ *               thumbnail:
+ *                 type: string
+ *                 format: binary
+ *                 description: Thumbnail image for the course.
+ *             required:
+ *               - title
+ *               - description
+ *               - price
+ *               - thumbnail
+ *     responses:
+ *       201:
+ *         description: Course created successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Course'
+ *       400:
+ *         description: Invalid request data.
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedError'
+ */
 
 export default router;
