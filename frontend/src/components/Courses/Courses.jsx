@@ -69,12 +69,8 @@ const Course = ({
       />
 
       <Stack direction={['column', 'row']} alignItems="center">
-        <Link to={`/course/${id}`}>
-          <Button colorScheme={'yellow'}>Watch Now</Button>
-        </Link>
         <Button
           isLoading={loading}
-          variant={'ghost'}
           colorScheme={'yellow'}
           onClick={() => addToPlaylistHandler(id)}
         >

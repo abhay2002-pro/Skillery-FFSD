@@ -255,14 +255,14 @@ export const getAllUsers = catchAsyncError(async (req, res, next) => {
 
 export const updateUserRole = catchAsyncError(async (req, res, next) => {
   const user = await User.findById(req.params.id);
-
   if (!user) return next(new ErrorHandler("User not found", 404));
-
   if (user.role === "user") user.role = "instructor";
-  else user.role = "user";
-
+  else {
+    let courses = await Course.find({"createdBy": user.name})
+    if(courses.length > 0) return next(new ErrorHandler("User is instructor of some courses", 400))
+    user.role = "user";
+  }
   await user.save();
-
   res.status(200).json({
     success: true,
     message: "Role Updated",
@@ -273,6 +273,9 @@ export const deleteUser = catchAsyncError(async (req, res, next) => {
   const user = await User.findById(req.params.id);
 
   if (!user) return next(new ErrorHandler("User not found", 404));
+
+  let courses = await Course.find({"createdBy": user.name})
+  if(courses.length > 0) return next(new ErrorHandler("Instructor have some courses", 400))
 
   await cloudinary.v2.uploader.destroy(user.avatar.public_id);
 
