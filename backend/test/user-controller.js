@@ -627,7 +627,7 @@ describe("User Controller", () => {
   after(async () => {
     try {
       await User.deleteMany({});
-      await mongoose.disconnect();
+      await mongoose.connection.close();
     } catch (error) {
       console.log(error);
     }
