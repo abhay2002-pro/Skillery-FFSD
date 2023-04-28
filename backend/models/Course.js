@@ -61,6 +61,7 @@ const schema = new mongoose.Schema({
   createdBy: {
     type: String,
     required: [true, "Enter Course Creator Name"],
+    index: true,
   },
   createdAt: {
     type: Date,
