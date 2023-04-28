@@ -20,7 +20,7 @@ describe("User Controller", () => {
       );
       console.log(`MongoDB connected with ${connection.host}`);
       user = new User({
-        _id: "6443f44ad3082e8de362b2d6",
+        _id: "6443f44ad3082e8de362b2d7",
         name: "Test",
         email: "test@gmail.com",
         password: "12345678",
@@ -627,7 +627,6 @@ describe("User Controller", () => {
   after(async () => {
     try {
       await User.deleteMany({});
-      await mongoose.connection.close();
     } catch (error) {
       console.log(error);
     }
