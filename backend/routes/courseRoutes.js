@@ -6,6 +6,7 @@ import {
   deleteLecture,
   getAllCourses,
   getCourseLectures,
+  getCourseLecture,
   getInstructorCourses,
 } from "../controllers/courseController.js";
 import {
@@ -15,7 +16,7 @@ import {
   authorizeSubscribers,
   authorizeAdminOrInstructor,
 } from "../middlewares/auth.js";
-import singleUpload from "../middlewares/multer.js";
+import { singleUploadImage, singleUploadVideo } from "../middlewares/multer.js";
 
 const router = express.Router();
 
@@ -172,7 +173,7 @@ router.route("/courses").get(getAllCourses);
  */
 router
   .route("/createcourse")
-  .post(isAuthenticated, authorizeAdminOrInstructor, singleUpload, createCourse);
+  .post(isAuthenticated, authorizeAdminOrInstructor, singleUploadImage, createCourse);
 
 // Add lecture, Delete Course, Get Course Details
 /**
@@ -279,7 +280,7 @@ router
 router
   .route("/course/:id")
   .get(isAuthenticated, authorizeSubscribers, getCourseLectures)
-  .post(isAuthenticated, authorizeAdminOrInstructor, singleUpload, addLecture)
+  .post(isAuthenticated, authorizeAdminOrInstructor, singleUploadVideo, addLecture)
   .delete(isAuthenticated, authorizeAdminOrInstructor, deleteCourse);
 
 // Delete Lecture
@@ -319,7 +320,7 @@ router
 
 router
 .route("/instructorcreatecourse")
-.post(isAuthenticated,authorizeInstructor,singleUpload,createCourse);
+.post(isAuthenticated,authorizeInstructor,singleUploadImage,createCourse);
 /**
  * @swagger
  * /lecture:
@@ -411,4 +412,7 @@ router
  *         $ref: '#/components/responses/UnauthorizedError'
  */
 
+router
+  .route("/lecture/:id")
+  .get(isAuthenticated, authorizeSubscribers, getCourseLecture)
 export default router;

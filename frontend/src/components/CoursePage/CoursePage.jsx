@@ -37,7 +37,7 @@ const CoursePage = ({ user }) => {
               controlsList="nodownload noremoteplayback"
               disablePictureInPicture
               disableRemotePlayback
-              src={lectures[lectureNumber].video.url}
+              src={`http://localhost:4000/api/v1/lecture/${lectures[lectureNumber].video.filename}`}
             ></video>
 
             <Heading

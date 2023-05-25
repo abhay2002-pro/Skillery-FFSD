@@ -17,7 +17,7 @@ import {
   updateUserRole,
 } from "../controllers/userController.js";
 import { authorizeAdmin, isAuthenticated } from "../middlewares/auth.js";
-import singleUpload from "../middlewares/multer.js";
+import { singleUploadImage } from "../middlewares/multer.js";
 
 const router = express.Router();
 
@@ -96,7 +96,7 @@ const router = express.Router();
  */
 
 // To register a new user
-router.route("/register").post(singleUpload, register);
+router.route("/register").post(singleUploadImage, register);
 /**
  * @swagger
  *
@@ -316,7 +316,7 @@ router.route("/updateprofile").put(isAuthenticated, updateProfile);
 // UpdateProfilePicture
 router
   .route("/updateprofilepicture")
-  .put(isAuthenticated, singleUpload, updateprofilepicture);
+  .put(isAuthenticated, singleUploadImage, updateprofilepicture);
 /**
  * @swagger
  *

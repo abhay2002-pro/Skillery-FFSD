@@ -4,7 +4,7 @@ import { sendEmail } from "../utils/sendEmail.js";
 import { Stats } from "../models/Stats.js";
 import { Course } from "../models/Course.js";
 import { User } from "../models/User.js";
-import redis_client from "../config/redis.js";
+// import redis_client from "../config/redis.js";
 
 export const contact = catchAsyncError(async (req, res, next) => {
   const { name, email, message } = req.body;

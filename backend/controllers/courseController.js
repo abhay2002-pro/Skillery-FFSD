@@ -4,6 +4,7 @@ import getDataUri from "../utils/dataUri.js";
 import ErrorHandler from "../utils/errorHandler.js";
 import cloudinary from "cloudinary";
 import { Stats } from "../models/Stats.js";
+import fs from "fs";
 
 export const getAllCourses = catchAsyncError(async (req, res, next) => {
   const keyword = req.query.keyword || "";
@@ -90,20 +91,14 @@ export const addLecture = catchAsyncError(async (req, res, next) => {
   if (req.user.role == "instructor" && course.createdBy != req.user.name) {
     return next(new ErrorHandler("THe course is from another instructor", 404));
   }
-  
+
   const file = req.file;
-
-  const fileUri = getDataUri(file);
-
-  const mycloud = await cloudinary.v2.uploader.upload(fileUri.content, {
-    resource_type: "video",
-  });
+  console.log(file);
   course.lectures.push({
     title,
     description,
     video: {
-      public_id: mycloud.public_id,
-      url: mycloud.secure_url,
+      filename: file.filename,
     },
   });
 
@@ -158,8 +153,19 @@ export const deleteLecture = catchAsyncError(async (req, res, next) => {
   const lecture = course.lectures.find((item) => {
     if (item._id.toString() === lectureId.toString()) return item;
   });
-  await cloudinary.v2.uploader.destroy(lecture.video.public_id, {
-    resource_type: "video",
+
+  const filePath = process.env.FILE_UPLOAD_PATH + "/" + lecture.video.filename;
+  console.log(filePath);
+  fs.stat(filePath, function (err, stats) {
+    if (err) {
+      throw new ErrorHandler("Lecture not found", 404);
+    }
+
+    fs.unlink(filePath, function (err) {
+      if (err) {
+        throw new ErrorHandler("Lecture not found", 404);
+      }
+    });
   });
 
   course.lectures = course.lectures.filter((item) => {
@@ -176,6 +182,47 @@ export const deleteLecture = catchAsyncError(async (req, res, next) => {
   });
 });
 
+export const getCourseLecture = catchAsyncError(async (req, res, next) => {
+  const videoRange = req.headers.range;
+  console.log(videoRange);
+  if (videoRange) {
+    const videoPath = process.env.FILE_UPLOAD_PATH + "/" + req.params.id;
+    const videoStat = fs.statSync(videoPath);
+    const filesize = videoStat.size;
+
+    const parts = videoRange.replace(/bytes=/, "").split("-");
+    const start = parseInt(parts[0], 10);
+    const end = parts[1] ? parseInt(parts[0], 10) : filesize - 1;
+
+    const chunksize = end - start + 1;
+    console.log(chunksize)
+    const file = fs.createReadStream(videoPath, { start, end });
+
+    const header = {
+      "Content-Range": `bytes ${start}-${end}/${filesize}`,
+
+      "Accept-Ranges": "bytes",
+
+      "Content-Length": chunksize,
+
+      "Content-Type": "video",
+    };
+    res.writeHead(206, header);
+    console.log("yeah!!");
+    file.pipe(res);
+  } else {
+
+    const head = {
+      "Content-Length": fileSize,
+
+      "Content-Type": "video/mp4",
+    };
+
+    res.writeHead(200, head);
+
+    fs.createReadStream(videoPath).pipe(res);
+  }
+});
 
 Course.watch().on("change", async () => {
   const stats = await Stats.find({}).sort({ createdAt: "desc" }).limit(1);

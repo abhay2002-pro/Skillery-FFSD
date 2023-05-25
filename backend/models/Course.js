@@ -24,14 +24,10 @@ const schema = new mongoose.Schema({
         required: true,
       },
       video: {
-        public_id: {
+        filename: {
           type: String,
           required: true,
-        },
-        url: {
-          type: String,
-          required: true,
-        },
+        }
       },
     },
   ],
